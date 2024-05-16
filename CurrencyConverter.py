@@ -1,6 +1,7 @@
 from tkinter import*
 from tkinter import ttk
 import tkinter.messagebox
+import requests
 
 class currencyConverter:
     
@@ -28,19 +29,22 @@ class currencyConverter:
         ButtonFrame.pack(side=BOTTOM)
         #----------------------------------------------------Function-----------------------------------------------------------
         
-        conversion_rates = {
-            'Britain (GBP)': 1.00,
-            'United States Dollar': 1.40,
-            'Euro (EUR)': 1.17,
-            'Japanese Yen (JPY)': 151.92,
-            'Swiss Franc (CHF)': 1.29,
-            'Canadian Dollar (CAD)': 1.72,
-            'Australian Dollar (AUD)': 1.81,
-            'Chinese Yuan (CNY)': 9.04,
-            'Indian Rupee (INR)': 102.61,
-            'Mexican Peso (MXN)': 28.09,
-            'Nigerian Naira (NGN)':1647.63
-        }
+        url = "https://api.exchangerate-api.com/v4/latest/USD"
+        data = requests.get(url).json()
+        conversion_rates = data['rates']
+        #{
+        #    'Britain (GBP)': 1.00,
+        #    'United States Dollar': 1.40,
+        #    'Euro (EUR)': 1.17,
+        #    'Japanese Yen (JPY)': 151.92,
+        #    'Swiss Franc (CHF)': 1.29,
+        #    'Canadian Dollar (CAD)': 1.72,
+        #    'Australian Dollar (AUD)': 1.81,
+        #    'Chinese Yuan (CNY)': 9.04,
+        #    'Indian Rupee (INR)': 102.61,
+        #    'Mexican Peso (MXN)': 28.09,
+        #    'Nigerian Naira (NGN)':1647.63
+        #}
         
         def convert_currency(): #Function to convert currency values
             try:
