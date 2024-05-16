@@ -7,7 +7,7 @@ class currencyConverter:
     def __init__(self, root):
         self.root = root
         self.root.title('Currency Converter') #Title of Window
-        self.root.geometry('870x600+300+200') #size of window
+        self.root.geometry('840x600+300+200') #size of window
         #---------------------------------------------------------------------------------------------------------------
         mainFrame = Frame(self.root, bd=10, relief=RIDGE)
         mainFrame.grid()
@@ -42,6 +42,29 @@ class currencyConverter:
             'Nigerian Naira (NGN)':1647.63
         }
         
+        def convert_currency(): #Function to convert currency values
+            try:
+                amount = float(self.amount_entry.get()) #Get the amount to convert
+                from_currency = self.from_currency_cmbBox.get() #Get the currecy from
+                to_currency = self.to_currency_cmbBox.get() #Get the currency to
+                converted_amount = amount * conversion_rates[to_currency] / conversion_rates[from_currency] #Math Operation to convert the amount
+                self.result_label.config(text=f'{amount} {from_currency} = {converted_amount:.2f} {to_currency}') #sow the result
+            except ValueError:
+                self.result_label.config(text='Please enter a valid number') #Show result if error
+                
+        def Reset(): #Funtion for resetting the screen
+            self.from_currency_cmbBox.current(0) #Reset the From Currency Combobox
+            self.to_currency_cmbBox.current(0) #Reset the To Currency Combobox
+            self.amount_entry.delete(0, END) #Delete the values in the amount entry
+            self.result_label.config(text='') #Clean the result box
+            self.amount_entry.focus() #Focus on Amount text box
+        
+        def iExit(): #Funtion for exiting the application
+            iExit = tkinter.messagebox.askyesno('Converter','Confirm if you want to exit') # Ask for confirmation
+            if iExit > 0:
+                root.destroy()
+                return
+            
         #----------------------------------------------------Widget-----------------------------------------------------------
         
         self.amount_label = Label(ConverterFrame, font=('Calibri',22,'bold'), text='Amount: ') #Amount Label
@@ -61,10 +84,18 @@ class currencyConverter:
         self.to_currency_cmbBox.grid(row=2, column=1, padx=5, pady=5, sticky=W)
         self.to_currency_cmbBox.current(0) #Display First Value in combobox
         
-        #----------------------------------------------------Buttons-----------------------------------------------------------
-        self.amount_entry.focus()
+        self.result_label = Label(DisplayConverter, font=('Calibri',20,'bold'), text='') #Amount Label
+        self.result_label.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
         
-
+        #----------------------------------------------------Buttons Widget-----------------------------------------------------------
+        
+        self.amount_entry.focus() #Focus on Amount text box
+        
+        self.btnConverter = Button(ButtonFrame, font=('Calibri',22,'bold'), width=15, height=2, text='Convert', command=convert_currency).grid(row=0, column=0, padx=4, pady=8) #Buton for Conversion
+        
+        self.btnReset = Button(ButtonFrame, font=('Calibri',22,'bold'), width=15, height=2, text='Reset', command=Reset).grid(row=0, column=1, padx=4, pady=8) #Buton for Reset
+        
+        self.btnExit = Button(ButtonFrame, font=('Calibri',22,'bold'), width=15, height=2, text='Exit', command=iExit).grid(row=0, column=2, padx=4, pady=8) #Buton for Exit
 
 
 if __name__== '__main__':
